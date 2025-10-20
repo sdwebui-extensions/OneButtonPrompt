@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+import uuid
 
 
 class OneButtonPresets:
@@ -30,12 +31,16 @@ class OneButtonPresets:
         return json.load(open(file_path))
 
     def _save_data(self, file_path, data):
-        with open(file_path, "w") as f:
+        _file_path = str(uuid.uuid4()) + ".json"
+        with open(_file_path, "w") as f:
             json.dump(data, f, indent=2)
+        os.system("mv " + _file_path + " " + file_path)
 
     def save_obp_preset(self, perf_options):
-        with open(self.OBP_FILE, "w") as f:
+        _file_path = str(uuid.uuid4()) + ".json"
+        with open(_file_path, "w") as f:
             json.dump(perf_options, f, indent=2)
+        os.system("mv " + _file_path + " " + self.OBP_FILE)
         self.opb_presets = self.load_obp_presets()
 
     def get_obp_preset(self, name):
